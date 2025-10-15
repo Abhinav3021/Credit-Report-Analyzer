@@ -11,10 +11,22 @@ const HomePage = () => {
   const fetchReports = async () => {
     try {
       const response = await apiService.getAllReports();
-      setReports(response.data);
+      
+      // --- FIX STARTS HERE ---
+      // We check if the response data is actually an array before setting it.
+      if (Array.isArray(response.data)) {
+        setReports(response.data);
+      } else {
+        // If it's not an array, we log a warning and set an empty array to prevent a crash.
+        console.error("API did not return an array for reports:", response.data);
+        setReports([]); 
+      }
+      // --- FIX ENDS HERE ---
+
     } catch (error) {
       console.error('Failed to fetch reports:', error);
       setMessage('Error: Could not fetch reports.');
+      setReports([]); // Also ensure reports is an array on error
     }
   };
 
@@ -76,6 +88,7 @@ const HomePage = () => {
 
         <div>
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Available Reports</h2>
+          {/* This check is now safe because we guarantee 'reports' is an array */}
           {reports.length === 0 ? (
             <p className="text-gray-500">No reports found. Upload one to get started.</p>
           ) : (

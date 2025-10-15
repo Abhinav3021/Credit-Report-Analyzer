@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://credit-report-analyzer-8wwt.onrender.com';
+const API_URL = 'https://credit-report-analyzer-8wwt.onrender.com/api/reports';
 
 
 const uploadReport = (file) => {
