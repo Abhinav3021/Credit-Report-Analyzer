@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const paymentHistorySchema = new mongoose.Schema({
+  year: String,
+  month: String,
+  daysPastDue: String,
+});
+
 const creditAccountSchema = new mongoose.Schema({
   accountNumber: { type: String, required: true },
   subscriberName: { type: String, default: 'N/A' },
@@ -8,6 +14,7 @@ const creditAccountSchema = new mongoose.Schema({
   accountType: { type: String, default: 'N/A' },
   openDate: { type: Date },
   dateReported: { type: Date },
+  paymentHistory: [paymentHistorySchema],
 });
 
 const addressSchema = new mongoose.Schema({

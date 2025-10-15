@@ -1,28 +1,29 @@
 # Credit Report Analyzer 📈
 
-A full-stack MERN (MongoDB, Express, React, Node.js) application designed to parse, store, and display financial credit reports from XML files. This project takes complex XML data, transforms it into a structured format, and presents it in a clean, professional, and responsive user interface.
+A full-stack MERN (MongoDB, Express, React, Node.js) application designed to parse, store, and display financial credit reports from Experian XML files. This project transforms complex XML data into a structured format and presents it in a clean, professional, and responsive user interface with dynamic visualizations.
 
 ---
 
 ## Features ✨
 
-* **File Upload**: Secure endpoint for uploading XML credit report files.
+* **Secure File Upload**: A robust endpoint for uploading XML credit report files with validation.
 * **XML Parsing**: Robust backend logic to parse complex XML and extract key financial data points.
 * **Data Persistence**: Stores structured report data in a MongoDB database for persistence and retrieval.
 * **RESTful API**: A well-defined API to manage report data (upload, get all, get by ID).
+* **Detailed Payment History**: A visual timeline of the user's payment history for each account, making it easy to spot on-time and late payments.
 * **Interactive Frontend**: A dynamic and user-friendly interface built with React to display reports.
 * **Detailed Reporting**: Breaks down the credit report into easy-to-understand sections:
     * Basic Details with a visual Credit Score
     * A comprehensive Report Summary
     * A table of all Credit Accounts
-    * A list of Addresses on file
+    * A visual timeline of Payment History for each account.
 * **Modular Codebase**: Organized and scalable project structure for both frontend and backend.
 
 ---
 
 ## Tech Stack 🛠️
 
-* **Frontend**: React, React Router, Axios
+* **Frontend**: React, React Router, Axios, @heroicons/react
 * **Backend**: Node.js, Express.js
 * **Database**: MongoDB with Mongoose
 * **File Handling**: Multer

@@ -15,7 +15,7 @@ const extractDataFromXml = (json) => {
   const basicDetails = {
     name: `${get(currentApp, 'Current_Applicant_Details.0.First_Name.0')} ${get(currentApp, 'Current_Applicant_Details.0.Last_Name.0')}`,
     mobilePhone: get(currentApp, 'Current_Applicant_Details.0.MobilePhoneNumber.0'),
-    pan: get(holderIdSection, 'Income_TAX_PAN.0'), // <-- CORRECTED PAN PATH
+    pan: get(holderIdSection, 'Income_TAX_PAN.0'),
     creditScore: parseInt(get(json, 'INProfileResponse.SCORE.0.BureauScore.0'), 10),
   };
 
@@ -32,6 +32,12 @@ const extractDataFromXml = (json) => {
   
   // 3. Credit Accounts
   const creditAccounts = accounts.map(acc => {
+
+    const history = (get(acc, 'CAIS_Account_History') || []).map(hist => ({
+      year: get(hist, 'Year.0'),
+      month: get(hist, 'Month.0'),
+      daysPastDue: get(hist, 'Days_Past_Due.0'),
+    }));
     
     return {
       accountNumber: get(acc, 'Account_Number.0'),
@@ -41,6 +47,7 @@ const extractDataFromXml = (json) => {
       accountType: get(acc, 'Account_Type.0'),
       openDate: get(acc, 'Open_Date.0'),
       dateReported: get(acc, 'Date_Reported.0'),
+      paymentHistory: history,
     };
   });
 
@@ -54,7 +61,7 @@ const extractDataFromXml = (json) => {
             get(addr, 'First_Line_Of_Address_non_normalized.0'),
             get(addr, 'Second_Line_Of_Address_non_normalized.0'),
             get(addr, 'Third_Line_Of_Address_non_normalized.0')
-        ].filter(Boolean).join(', '); // Filter out empty parts and join
+        ].filter(Boolean).join(', ');
 
         allAddresses.push({
             fullAddress: fullAddress,
@@ -107,7 +114,7 @@ const uploadReport = async (req, res) => {
     });
   } catch (error) {
     console.error('Error processing file:', error);
-    // Distinguish between parsing and other errors
+
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: 'Data validation failed', details: error.message });
     }
